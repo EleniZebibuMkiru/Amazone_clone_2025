@@ -1,29 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // ✅ Use React Router Link
 import Rating from '@mui/material/Rating';
 import CurrencyFormat from '../CurrencyFormat/CurrencyFormat';
-// Match this to your actual file path: Product.module.css
 import classes from "./product.module.css";
 
-
 function ProductCard({ product }) {
-  // Use optional chaining (?.) to prevent crashes if data is missing
   const { id, image, title, rating, price } = product || {};
 
   return (
     <div className={classes.card__container}>
-      <a href={`/product/${id}`}>
+      <Link to={`/products/${id}`}> {/* ✅ fixed route */}
         <img src={image} alt={title} />
-      </a>
+      </Link>
       <div className={classes.product__info}>
         <h3>{title}</h3>
         <div className={classes.rating}>
-          {/* Rating */}
           <Rating value={rating?.rate || 0} precision={0.1} readOnly />
-          {/* Count limited to 60 or dynamic */}
           <small>{rating?.count || 0}</small>
         </div>
         <div>
-          {/* Price */}
           <CurrencyFormat amount={price} />
         </div>
         <button className={classes.button}>

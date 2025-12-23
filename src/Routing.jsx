@@ -6,6 +6,7 @@ import Landing from './pages/Landing/Landing';
 import Order from './pages/Order/Order';
 import Signup from './pages/Auth/Signup';
 import Results from './pages/Results/Results';
+import ProductDetail from './pages/ProductDetail/ProductDetail'; // ✅ IMPORT ADDED
 
 function Routing() {
   return (
@@ -17,6 +18,7 @@ function Routing() {
         <Route path="/orders" element={<Order />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/category/:categoryName" element={<Results />} />
+        <Route path="/products/:ProductId" element={<ProductDetail />} /> {/* ✅ FIXED NAME */}
       </Routes>
     </Router>
   );
