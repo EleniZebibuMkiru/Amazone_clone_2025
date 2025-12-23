@@ -1,12 +1,11 @@
 import React from "react";
-import { categoryInfos } from "./Catagoryfullinfo";
-import CategoryCard from "./Catagorycard";
-import styles from "./catagory.module.css";
-
+import { categoryInfos } from "./CategoryFullInfo";
+import CategoryCard from "./CategoryCard";
+import classes from "./category.module.css";
 
 function Category() {
   return (
-    <section className={styles.category__container}>
+    <section className={classes.category__container}>
       {categoryInfos.map((infos) => (
         <CategoryCard key={infos.name} data={infos} />
       ))}
