@@ -1,7 +1,20 @@
 /* ===============================
+   GLOBAL RESET
+   =============================== */
+* {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+:root {
+  --primary-color: #d27219;
+  --primary-shade: #c05415;
+}
+
+/* ===============================
    PRODUCTS CONTAINER
    =============================== */
-
 .products_container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -14,22 +27,24 @@
 /* ===============================
    PRODUCT CARD
    =============================== */
-
 .card__container {
   width: 250px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
   padding: 10px;
   background-color: white;
   position: relative;
-
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.card__container:hover {
+  transform: translateY(-5px);
 }
 
 /* ===============================
    IMAGE
    =============================== */
-
 .card__container img {
   width: 100%;
   height: 200px;
@@ -37,33 +52,126 @@
 }
 
 /* ===============================
+   PRODUCT TITLE & PRICE
+   =============================== */
+.card__container h3 {
+  margin: 10px 0 5px 0;
+  font-size: 16px;
+}
+
+.card__container p {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ===============================
    RATING
    =============================== */
-
 .rating {
   display: flex;
   align-items: center;
   gap: 5px;
+  margin-bottom: 10px;
 }
 
 /* ===============================
-   BUTTON
+   ADD TO CART BUTTON
    =============================== */
-
 .button {
-  display: none;
+  display: none; /* hidden by default */
   width: 100%;
-  padding: 8px;
+  padding: 10px 0;
   border: none;
   cursor: pointer;
   background-color: var(--primary-color);
+  color: #fff;
   border-radius: 30px;
-
+  font-weight: bold;
+  transition: background-color 0.2s ease;
   position: absolute;
   bottom: 10px;
   left: 0;
+  z-index: 2;
 }
 
+/* Show button on card hover */
 .card__container:hover .button {
   display: block;
+}
+
+/* Button hover effect */
+.button:hover {
+  background-color: var(--primary-shade);
+}
+
+/* ===============================
+   FLEXED PRODUCT LAYOUT
+   =============================== */
+.product__flexed {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 50px;
+  width: 100%;
+  height: 50vh;
+  box-shadow: none;
+}
+
+.product__flexed h3 {
+  padding: 20px 0px;
+  padding-left: 0 !important;
+}
+
+.product__flexed .button {
+  display: block;
+  position: static;
+  width: 150px;
+  margin-right: 40px;
+}
+
+.product__flexed .button:hover {
+  background-color: var(--primary-shade);
+}
+
+.product__flexed img {
+  width: 200px !important;
+  height: auto;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media screen and (max-width: 768px) {
+  .product__flexed {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    border-bottom: 1px solid grey;
+  }
+
+  /* Always show button on mobile since hover doesn't work */
+  .card__container .button {
+    display: block;
+    position: relative;
+    margin-top: 10px;
+  }
+}
+
+.product_description {
+  color: #333; /* normal text color */
+  font-size: 13px;
+  margin-top: 10px;
+  line-height: 1;
+  font-weight: 400; /* normal weight */
+}
+
+
+.product_link {
+  text-decoration: none; /* remove underline */
+  color: inherit; /* inherit color from parent */
+}
+
+.product_link h3 {
+  margin: 10px 0 5px 0;
+  font-size: 16px;
 }

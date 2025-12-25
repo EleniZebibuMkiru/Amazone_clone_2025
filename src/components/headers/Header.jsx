@@ -6,20 +6,16 @@ import { BiCart } from "react-icons/bi";
 
 import classes from "./Header.module.css";
 import LowerHeader from "../Lowerheader";
+import { DataContext } from "../Dataprovider/Dataprovider";
 
 function Header() {
+  const [state] = React.useContext(DataContext);
   const user = null; // replace with auth logic later
-  const totalItem = 0;
-
-  const handleSignOutAndClearCart = () => {
-    console.log("User signed out");
-  };
+  const totalItem = state?.basket?.length || 0;
 
   return (
     <header className={classes.fixed}>
-      {/* Top Header */}
       <div className={classes.header__container}>
-        {/* Logo + Delivery */}
         <div className={classes.logo__container}>
           <Link to="/">
             <img
@@ -27,7 +23,6 @@ function Header() {
               alt="Amazon Logo"
             />
           </Link>
-
           <div className={classes.delivery}>
             <span><SlLocationPin /></span>
             <div>
@@ -37,7 +32,6 @@ function Header() {
           </div>
         </div>
 
-        {/* Search Bar */}
         <div className={classes.search}>
           <select>
             <option>All</option>
@@ -52,9 +46,7 @@ function Header() {
           <BsSearch size={40} />
         </div>
 
-        {/* Right Side */}
         <div className={classes.order__container}>
-          {/* Language */}
           <Link to="/" className={classes.language}>
             <img
               src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
@@ -65,13 +57,12 @@ function Header() {
             </select>
           </Link>
 
-          {/* Auth */}
           <Link to={user ? "/" : "/auth"}>
             <div>
               {user ? (
                 <>
                   <p>Hello {user.email.split("@")[0]}</p>
-                  <span onClick={handleSignOutAndClearCart}>Sign Out</span>
+                  <span>Sign Out</span>
                 </>
               ) : (
                 <>
@@ -82,13 +73,11 @@ function Header() {
             </div>
           </Link>
 
-          {/* Orders */}
           <Link to="/orders">
             <p>Returns</p>
             <span>& Orders</span>
           </Link>
 
-          {/* Cart */}
           <Link to="/cart" className={classes.cart}>
             <BiCart size={35} />
             <span>{totalItem}</span>
@@ -96,7 +85,6 @@ function Header() {
         </div>
       </div>
 
-      {/* Lower Header */}
       <LowerHeader />
     </header>
   );

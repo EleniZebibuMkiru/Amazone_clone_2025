@@ -1,12 +1,13 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Payment from './pages/Payment/Payment';
-import Cart from './pages/Cart/Cart';
-import Landing from './pages/Landing/Landing';
-import Order from './pages/Order/Order';
-import Signup from './pages/Auth/Signup';
-import Results from './pages/Results/Results';
-import ProductDetail from './pages/ProductDetail/ProductDetail'; // ✅ IMPORT ADDED
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Payment from "./pages/Payment/Payment";
+import Cart from "./pages/Cart/Cart";
+import Landing from "./pages/Landing/Landing";
+import Order from "./pages/Order/Order";
+import Signup from "./pages/Auth/Signup";
+import Results from "./pages/Results/Results";
+import ProductDetail from "./pages/ProductDetail/ProductDetail";
 
 function Routing() {
   return (
@@ -18,7 +19,7 @@ function Routing() {
         <Route path="/orders" element={<Order />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/category/:categoryName" element={<Results />} />
-        <Route path="/products/:ProductId" element={<ProductDetail />} /> {/* ✅ FIXED NAME */}
+        <Route path="/products/:productId" element={<ProductDetail />} />
       </Routes>
     </Router>
   );

@@ -1,30 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // ✅ Use React Router Link
-import Rating from '@mui/material/Rating';
-import CurrencyFormat from '../CurrencyFormat/CurrencyFormat';
-import classes from "./product.module.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import { DataContext } from "../Dataprovider/Dataprovider";
+import { Type } from "../../Utility/action.type";
+import classes from "./Product.module.css";
 
-function ProductCard({ product }) {
-  const { id, image, title, rating, price } = product || {};
+function ProductCard({ product, renderDisc, flex }) {
+  const [, dispatch] = React.useContext(DataContext);
+
+  if (!product) return null;
+
+  const addToCart = () => {
+    dispatch({ type: Type.ADD_TO_BASKET, item: product });
+  };
 
   return (
-    <div className={classes.card__container}>
-      <Link to={`/products/${id}`}> {/* ✅ fixed route */}
-        <img src={image} alt={title} />
+    <div
+      className={`${classes.card__container} ${
+        flex ? classes.product__flexed : ""
+      }`}
+    >
+      <Link to={`/products/${product.id}`} className={classes.product_link}>
+        <img src={product.image} alt={product.title} />
+        <h3>{product.title}</h3>
+        <p>${product.price}</p>
       </Link>
-      <div className={classes.product__info}>
-        <h3>{title}</h3>
-        <div className={classes.rating}>
-          <Rating value={rating?.rate || 0} precision={0.1} readOnly />
-          <small>{rating?.count || 0}</small>
-        </div>
-        <div>
-          <CurrencyFormat amount={price} />
-        </div>
-        <button className={classes.button}>
-          add to cart
-        </button>
-      </div>
+
+      {renderDisc && (
+        <p className={classes.product_description}>
+          {product.description}
+        </p>
+      )}
+
+      <button className={classes.button} onClick={addToCart}>
+        Add to Cart
+      </button>
     </div>
   );
 }

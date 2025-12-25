@@ -1,39 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import Layout from '../../components/Layout/LayOut';
-import classes from './ProductDetail.module.css';  
-import { useParams } from 'react-router-dom';
-import { productUrl } from '../../API/EndPoint';
-import ProductCard from '../../components/product/ProductCard';
-import axios from 'axios';
-import Loader from '../../components/Loder/loder';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Layout from "../../components/Layout/LayOut";
+import axios from "axios";
+import Loader from "../../components/Loder/loder";
+import classes from "./ProductDetail.module.css";
 
 function ProductDetail() {
-  const { ProductId } = useParams();
-  const [product, setProduct] = useState(null); // start with null
-  const [isLoading, setIsLoading] = useState(true); // loading initially
+  const { productId } = useParams(); // ✅ MATCHES ROUTE
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
-    axios.get(`${productUrl}/${ProductId}`)
+    axios
+      .get(`https://fakestoreapi.com/products/${productId}`)
       .then((res) => {
         setProduct(res.data);
-        setIsLoading(false); // finished loading
+        setLoading(false);
       })
-      .catch((error) => {
-        console.error("Error fetching product details:", error);
-        setIsLoading(false);
-      });
-  }, [ProductId]);
+      .catch(() => setLoading(false));
+  }, [productId]);
+
+  if (loading) return <Loader />;
+
+  if (!product) {
+    return (
+      <Layout>
+        <p style={{ textAlign: "center" }}>Product not found</p>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
-      {isLoading ? (
-        <Loader />
-      ) : product ? (
-        <ProductCard product={product} />
-      ) : (
-        <p style={{ padding: "30px" }}>Product not found</p>
-      )}
+      <div className={classes.container}>
+        <img src={product.image} alt={product.title} />
+        <h2>{product.title}</h2>
+        <p className={classes.description}>
+          {product.description || "No description available"}
+        </p>
+        <h3>${product.price}</h3>
+      </div>
     </Layout>
   );
 }
