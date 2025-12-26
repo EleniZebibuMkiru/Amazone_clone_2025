@@ -12,6 +12,8 @@ function Header() {
   const [state] = React.useContext(DataContext);
   const user = null; // replace with auth logic later
   const totalItem = state?.basket?.length || 0;
+ 
+   
 
   return (
     <header className={classes.fixed}>

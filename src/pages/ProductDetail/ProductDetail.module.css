@@ -1,17 +1,75 @@
+/* Variables provided in your root */
+:root {
+  --primary-color: #d27219;
+  --primary-shade: #c05415;
+}
+
 .container {
-  max-width: 700px;
+  max-width: 900px;
   margin: 40px auto;
-  text-align: center;
+  padding: 20px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+}
+
+/* Stacks vertically on mobile */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 .container img {
   max-width: 300px;
-  margin-bottom: 20px;
+  height: auto;
+  object-fit: contain;
+}
+
+.info_section {
+  text-align: left;
+  flex: 1;
+}
+
+.info_section h2 {
+  margin-bottom: 10px;
+  color: #333;
 }
 
 .description {
-  max-width: 600px;
-  margin: 0 auto;
   line-height: 1.6;
-  color: #333;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Using your Primary Color for the Price */
+.price {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: var(--primary-color); 
+}
+
+/* Using your Primary Color and Shade for the Button */
+.add_button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add_button:hover {
+  background-color: var(--primary-shade); /* Darker orange on hover */
+}
+
+.add_button:active {
+  transform: scale(0.96);
 }
