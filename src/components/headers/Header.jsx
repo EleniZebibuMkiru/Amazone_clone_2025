@@ -69,7 +69,7 @@ function Header() {
               ) : (
                 <>
                   <p>Hello, Sign In</p>
-                  <span>Account & Lists</span>
+                  {/* <span>Account & Lists</span> */}
                 </>
               )}
             </div>

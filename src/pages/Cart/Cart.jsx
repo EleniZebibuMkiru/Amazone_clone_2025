@@ -11,24 +11,18 @@ import { PiCaretDownLight, PiCaretUp } from "react-icons/pi";
 function Cart() {
   const [{ basket }, dispatch] = React.useContext(DataContext);
 
-  // Calculate total price of all items
+  // Calculate total price
   const total = basket.reduce(
     (sum, item) => sum + item.price * item.amount,
     0
   );
 
   const increment = (item) => {
-    dispatch({
-      type: Type.ADD_TO_BASKET,
-      item,
-    });
+    dispatch({ type: Type.ADD_TO_BASKET, item });
   };
 
   const decrement = (id) => {
-    dispatch({
-      type: Type.REMOVE_FROM_BASKET,
-      id,
-    });
+    dispatch({ type: Type.REMOVE_FROM_BASKET, id });
   };
 
   return (
@@ -44,7 +38,6 @@ function Cart() {
           ) : (
             basket.map((item) => (
               <div key={item.id} className={classes.cart_product}>
-                {/* Existing ProductCard */}
                 <ProductCard
                   product={item}
                   renderDesc={true}
@@ -52,26 +45,18 @@ function Cart() {
                   renderAdd={false}
                 />
 
-                {/* Increment / Decrement buttons */}
                 <div className={classes.btn_container}>
-                  <button
-                    className={classes.btn}
-                    onClick={() => increment(item)}
-                  >
-                    <PiCaretUp  size={30}/>
+                  <button className={classes.btn} onClick={() => increment(item)}>
+                    <PiCaretUp size={30} />
                   </button>
 
                   <span>{item.amount}</span>
 
-                  <button
-                    className={classes.btn}
-                    onClick={() => decrement(item.id)}
-                  >
-                    <PiCaretDownLight size={30}/>
+                  <button className={classes.btn} onClick={() => decrement(item.id)}>
+                    <PiCaretDownLight size={30} />
                   </button>
                 </div>
 
-                {/* Show subtotal per product */}
                 <p className={classes.product_subtotal}>
                   {item.title}: ${item.price} × {item.amount} = $
                   {item.price * item.amount}
@@ -81,21 +66,15 @@ function Cart() {
           )}
         </div>
 
-        {/* Subtotal / Cart total */}
         {basket.length !== 0 && (
           <div className={classes.subtotal}>
             <div>
+              {/* ✅ Fixed: CurrencyFormat now returns <span> */}
               <p>
                 Subtotal ({basket.length} items):{" "}
-                <CurrencyFormat
-                  value={total}
-                  displayType={"text"}
-                  thousandSeparator={true}
-                  prefix={"$"}
-                />
+                <CurrencyFormat amount={total} displayType="text" />
               </p>
 
-              {/* Grand total clearly shown */}
               <p>
                 <strong>Total to pay: ${total}</strong>
               </p>
@@ -105,7 +84,9 @@ function Cart() {
                 <small>This order contains a gift</small>
               </span>
 
+              {/* ✅ Navigation to Payment */}
               <Link to="/payment">Continue to Checkout</Link>
+
             </div>
           </div>
         )}
