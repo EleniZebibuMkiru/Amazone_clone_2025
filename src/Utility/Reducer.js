@@ -1,5 +1,10 @@
 import { Type } from "./action.type";
 
+export const intialState ={
+  basket:[]
+  user:null
+}
+
 export const Reducer = (state, action) => {
   switch (action.type) {
     case Type.ADD_TO_BASKET: {
@@ -61,4 +66,11 @@ case Type.REMOVE_FROM_BASKET: {
       return state;
   }
 };
+
+case type.SET_USER:
+  return{
+    ...state,
+    user: action.user
+  }
+
 export default Reducer;
