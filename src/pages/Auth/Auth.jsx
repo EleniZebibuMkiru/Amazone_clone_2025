@@ -1,4 +1,4 @@
-import React, { useState ,useContext} from "react";
+import React, { useState, useContext } from "react";
 import LayOut from "../../components/Layout/LayOut";
 import { Link } from "react-router-dom";
 import classes from "./signUp.module.css";
@@ -9,39 +9,68 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+
 import { DataContext } from "../../components/Dataprovider/Dataprovider";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const [{user}, dispatch] = useContext(DataContext);
+  const [loading, setLoading] = useState({
+    signIn: false,
+    signUp: false,
+  });
 
+  const [{ user }, dispatch] = useContext(DataContext);
+
+  // ✅ SIGN IN
   const signInHandler = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading({ ...loading, signIn: true });
+
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log("Signed in:", userCredential.user);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
       dispatch({
         type: Type.SET_USER,
-        user: userCredential.user, // ✅ send correct user
+        user: userCredential.user,
       });
     } catch (err) {
       setError(err.message);
+    } finally {
+      // ✅ stops loading on success OR error
+      setLoading({ ...loading, signIn: false });
     }
   };
 
+  // ✅ SIGN UP
   const signUpHandler = async () => {
+    setError("");
+    setLoading({ ...loading, signUp: true });
+
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User created:", userCredential.user);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
       dispatch({
         type: Type.SET_USER,
-        user: userCredential.user, // ✅ send correct user
+        user: userCredential.user,
       });
     } catch (err) {
       setError(err.message);
+    } finally {
+      // ✅ stops loading on success OR error
+      setLoading({ ...loading, signUp: false });
     }
   };
 
@@ -62,33 +91,46 @@ function Auth() {
             <div>
               <label>Email</label>
               <input
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                type="email"
+                required
               />
             </div>
 
             <div>
               <label>Password</label>
               <input
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                type="password"
+                required
               />
             </div>
 
-            <button type="submit" className={classes.login__signInButton}>
-              Sign In
+            <button
+              type="submit"
+              className={classes.login__signInButton}
+              disabled={loading.signIn}
+            >
+              {loading.signIn ? <ClipLoader size={18} /> : "Sign In"}
             </button>
           </form>
 
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          {error && (
+            <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
+          )}
 
           <button
             onClick={signUpHandler}
             className={classes.login__registerButton}
+            disabled={loading.signUp}
           >
-            Create your Amazon Account
+            {loading.signUp ? (
+              <ClipLoader size={18} />
+            ) : (
+              "Create your Amazon Account"
+            )}
           </button>
         </div>
       </section>
