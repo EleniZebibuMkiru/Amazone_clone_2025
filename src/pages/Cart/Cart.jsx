@@ -3,13 +3,14 @@ import LayOut from "../../components/Layout/LayOut";
 import ProductCard from "../../components/product/ProductCard";
 import { DataContext } from "../../components/Dataprovider/Dataprovider";
 import classes from "./Cart.module.css";
-import { Link } from "react-router-dom";
 import CurrencyFormat from "../../components/CurrencyFormat/CurrencyFormat";
 import { Type } from "../../Utility/action.type";
 import { PiCaretDownLight, PiCaretUp } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const [{ basket }, dispatch] = React.useContext(DataContext);
+  const navigate = useNavigate();
 
   // Calculate total price
   const total = basket.reduce(
@@ -69,7 +70,6 @@ function Cart() {
         {basket.length !== 0 && (
           <div className={classes.subtotal}>
             <div>
-              {/* ✅ Fixed: CurrencyFormat now returns <span> */}
               <p>
                 Subtotal ({basket.length} items):{" "}
                 <CurrencyFormat amount={total} displayType="text" />
@@ -84,9 +84,13 @@ function Cart() {
                 <small>This order contains a gift</small>
               </span>
 
-              {/* ✅ Navigation to Payment */}
-              <Link to="/payment">Continue to Checkout</Link>
-
+              {/* ✅ Correct Continue to Checkout button */}
+              <button
+                className={classes.checkoutBtn}
+                onClick={() => navigate("/payment")}
+              >
+                Continue to Checkout
+              </button>
             </div>
           </div>
         )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { SlLocationPin } from "react-icons/sl";
 import { BsSearch } from "react-icons/bs";
@@ -8,16 +8,25 @@ import classes from "./Header.module.css";
 import LowerHeader from "../Lowerheader";
 import { DataContext } from "../Dataprovider/Dataprovider";
 
+import { auth } from "../../Utility/firebase";
+import { signOut } from "firebase/auth";
+import { Type } from "../../Utility/action.type";
+
 function Header() {
-  const [state] = React.useContext(DataContext);
-  const user = null; // replace with auth logic later
-  const totalItem = state?.basket?.length || 0;
- 
-   
+  const [{ user, basket }, dispatch] = useContext(DataContext);
+
+  const totalItem = basket?.length || 0;
+
+  const handleSignOutAndClearCart = async () => {
+    await signOut(auth);
+    dispatch({ type: Type.SET_USER, user: null });
+    dispatch({ type: Type.EMPTY_BASKET });
+  };
 
   return (
-    <header className={classes.fixed}>
-      <div className={classes.header__container}>
+    <div className={classes["header-wrapper"]}>
+      {/* Top Header */}
+      <section className={classes.header__container}>
         <div className={classes.logo__container}>
           <Link to="/">
             <img
@@ -25,8 +34,11 @@ function Header() {
               alt="Amazon Logo"
             />
           </Link>
+
           <div className={classes.delivery}>
-            <span><SlLocationPin /></span>
+            <span>
+              <SlLocationPin />
+            </span>
             <div>
               <p>Deliver to</p>
               <span>Ethiopia</span>
@@ -34,6 +46,7 @@ function Header() {
           </div>
         </div>
 
+        {/* Search */}
         <div className={classes.search}>
           <select>
             <option>All</option>
@@ -48,6 +61,7 @@ function Header() {
           <BsSearch size={40} />
         </div>
 
+        {/* Right side */}
         <div className={classes.order__container}>
           <Link to="/" className={classes.language}>
             <img
@@ -59,21 +73,25 @@ function Header() {
             </select>
           </Link>
 
-          <Link to={user ? "/" : "/auth"}>
-            <div>
-              {user ? (
-                <>
-                  <p>Hello {user.email.split("@")[0]}</p>
-                  <span>Sign Out</span>
-                </>
-              ) : (
-                <>
-                  <p>Hello, Sign In</p>
-                  {/* <span>Account & Lists</span> */}
-                </>
-              )}
-            </div>
-          </Link>
+          {/* Fixed Account Section */}
+          <div>
+            {user ? (
+              <>
+                <p>Hello {user.email.split("@")[0]}</p>
+                <span
+                  onClick={handleSignOutAndClearCart}
+                  style={{ cursor: "pointer" }}
+                >
+                  Sign Out
+                </span>
+              </>
+            ) : (
+              <Link to="/auth">
+                <p>Hello, Sign In</p>
+                <span>Account & Lists</span>
+              </Link>
+            )}
+          </div>
 
           <Link to="/orders">
             <p>Returns</p>
@@ -85,10 +103,11 @@ function Header() {
             <span>{totalItem}</span>
           </Link>
         </div>
-      </div>
+      </section>
 
+      {/* Lower Header */}
       <LowerHeader />
-    </header>
+    </div>
   );
 }
 

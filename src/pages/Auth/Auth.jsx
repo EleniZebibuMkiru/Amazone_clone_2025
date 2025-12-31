@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import LayOut from "../../components/Layout/LayOut";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./signUp.module.css";
 import { auth } from "../../Utility/firebase";
 import { Type } from "../../Utility/action.type";
@@ -24,6 +24,7 @@ function Auth() {
   });
 
   const [{ user }, dispatch] = useContext(DataContext);
+  const navigate = useNavigate();
 
   // ✅ SIGN IN
   const signInHandler = async (e) => {
@@ -42,10 +43,11 @@ function Auth() {
         type: Type.SET_USER,
         user: userCredential.user,
       });
+
+      navigate("/"); // ✅ redirect after success
     } catch (err) {
       setError(err.message);
     } finally {
-      // ✅ stops loading on success OR error
       setLoading({ ...loading, signIn: false });
     }
   };
@@ -66,10 +68,11 @@ function Auth() {
         type: Type.SET_USER,
         user: userCredential.user,
       });
+
+      navigate("/"); // ✅ redirect after success
     } catch (err) {
       setError(err.message);
     } finally {
-      // ✅ stops loading on success OR error
       setLoading({ ...loading, signUp: false });
     }
   };

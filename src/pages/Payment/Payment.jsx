@@ -5,7 +5,15 @@ function Payment() {
   return (
     <LayOut>
      <div>
-      Payment page
+<h1>payment pages</h1>
+<h1>payment pages</h1>
+<h1>payment pages</h1>
+<h1>payment pages</h1>
+<h1>payment pages</h1>
+<h1>payment pages</h1>
+<h1>payment pages</h1>
+<h1>payment pages</h1>
+<h1>payment pages</h1>
     </div>
     </LayOut>
    

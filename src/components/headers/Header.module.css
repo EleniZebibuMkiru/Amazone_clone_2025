@@ -203,3 +203,46 @@
     display: none;
   }
 }
+/* Entire header wrapper: fixed on top */
+.header-wrapper {
+  position: fixed; /* fix on top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Top Header */
+.header__container {
+  background-color: #1a1a1a;
+  display: flex;
+  padding: 0 10px;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between; /* better spacing */
+  color: white;
+  height: 50px;
+  font-size: 12px;
+}
+
+/* Lower Header */
+.lower__container {
+  background-color: #232f3e;
+  color: white;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+/* Adjust main content so it does not go under the fixed header */
+.main-content {
+  padding-top: 85px; /* top header + lower header = 50 + 35 */
+}
+
+.header-wrapper {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
